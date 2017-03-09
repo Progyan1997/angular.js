@@ -8,16 +8,15 @@
  * @ngdoc directive
  * @name ngClick
  * @deprecated
- *
- * @description
- * <div class="alert alert-danger">
- * **DEPRECATION NOTICE**: Beginning with Angular 1.5, this directive is deprecated and by default **disabled**.
+ * sinceVersion="v1.5.0"
+ * This directive is deprecated and **disabled** by default.
  * The directive will receive no further support and might be removed from future releases.
  * If you need the directive, you can enable it with the {@link ngTouch.$touchProvider $touchProvider#ngClickOverrideEnabled}
  * function. We also recommend that you migrate to [FastClick](https://github.com/ftlabs/fastclick).
  * To learn more about the 300ms delay, this [Telerik article](http://developer.telerik.com/featured/300-ms-click-delay-ios-8/)
  * gives a good overview.
- * </div>
+ *
+ * @description
  * A more powerful replacement for the default ngClick designed to be used on touchscreen
  * devices. Most mobile browsers wait about 300ms after a tap-and-release before sending
  * the click event. This version handles them immediately, and then prevents the
@@ -36,7 +35,7 @@
  * upon tap. (Event object is available as `$event`)
  *
  * @example
-    <example module="ngClickExample" deps="angular-touch.js">
+    <example module="ngClickExample" deps="angular-touch.js" name="ng-touch-ng-click">
       <file name="index.html">
         <button ng-click="count = count + 1" ng-init="count=0">
           Increment
@@ -93,7 +92,7 @@ var ngTouchClickDirectiveFactory = ['$parse', '$timeout', '$rootElement',
   //
   // This is an ugly, terrible hack!
   // Yeah, tell me about it. The alternatives are using the slow click events, or making our users
-  // deal with the ghost clicks, so I consider this the least of evils. Fortunately Angular
+  // deal with the ghost clicks, so I consider this the least of evils. Fortunately AngularJS
   // encapsulates this ugly logic away from the user.
   //
   // Why not just put click handlers on the element?
@@ -161,7 +160,9 @@ var ngTouchClickDirectiveFactory = ['$parse', '$timeout', '$rootElement',
     event.preventDefault();
 
     // Blur focused form elements
-    event.target && event.target.blur && event.target.blur();
+    if (event.target && event.target.blur) {
+      event.target.blur();
+    }
   }
 
 
@@ -176,7 +177,7 @@ var ngTouchClickDirectiveFactory = ['$parse', '$timeout', '$rootElement',
     $timeout(function() {
       // Remove the allowable region.
       for (var i = 0; i < touchCoordinates.length; i += 2) {
-        if (touchCoordinates[i] == x && touchCoordinates[i + 1] == y) {
+        if (touchCoordinates[i] === x && touchCoordinates[i + 1] === y) {
           touchCoordinates.splice(i, i + 2);
           return;
         }
@@ -216,7 +217,7 @@ var ngTouchClickDirectiveFactory = ['$parse', '$timeout', '$rootElement',
       tapping = true;
       tapElement = event.target ? event.target : event.srcElement; // IE uses srcElement.
       // Hack for Safari, which can target text nodes instead of containers.
-      if (tapElement.nodeType == 3) {
+      if (tapElement.nodeType === 3) {
         tapElement = tapElement.parentNode;
       }
 

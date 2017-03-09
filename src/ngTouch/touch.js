@@ -1,7 +1,6 @@
 'use strict';
 
-/* global ngTouchClickDirectiveFactory: false,
- */
+/* global ngTouchClickDirectiveFactory: false */
 
 /**
  * @ngdoc module
@@ -25,10 +24,12 @@
 /* global -ngTouch */
 var ngTouch = angular.module('ngTouch', []);
 
+ngTouch.info({ angularVersion: '"NG_VERSION_FULL"' });
+
 ngTouch.provider('$touch', $TouchProvider);
 
 function nodeName_(element) {
-  return angular.lowercase(element.nodeName || (element[0] && element[0].nodeName));
+  return angular.$$lowercase(element.nodeName || (element[0] && element[0].nodeName));
 }
 
 /**
@@ -61,6 +62,7 @@ function $TouchProvider($provide, $compileProvider) {
    */
   var ngClickOverrideEnabled = false;
   var ngClickDirectiveAdded = false;
+  // eslint-disable-next-line no-invalid-this
   this.ngClickOverrideEnabled = function(enabled) {
     if (angular.isDefined(enabled)) {
 
@@ -108,6 +110,7 @@ function $TouchProvider($provide, $compileProvider) {
   * Provides the {@link ngTouch.$touch#ngClickOverrideEnabled `ngClickOverrideEnabled`} method.
   *
   */
+  // eslint-disable-next-line no-invalid-this
   this.$get = function() {
     return {
       /**
